@@ -2,18 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Auth {
+  accessToken: String!
+}
+
 input CreateUserInput {
   """User's email"""
   email: String!
 
-  """User's name"""
-  name: String!
+  """User's first name"""
+  firstName: String!
+
+  """User's password"""
+  password: String!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  createUser(input: CreateUserInput!): User!
   removeUser(id: ID!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  signIn(input: SignInInput!): Auth!
+  updateUser(input: UpdateUserInput!): User!
 }
 
 type Query {
@@ -21,13 +29,24 @@ type Query {
   users: [User!]!
 }
 
+input SignInInput {
+  """User's email"""
+  email: String!
+
+  """User's password"""
+  password: String!
+}
+
 input UpdateUserInput {
   """User's email"""
   email: String
+
+  """User's first name"""
+  firstName: String!
   id: ID!
 
-  """User's name"""
-  name: String
+  """User's password"""
+  password: String
 }
 
 type User {
