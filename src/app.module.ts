@@ -5,9 +5,18 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { join } from 'path';
 import { PrismaService } from './prisma/prisma.service';
 import { UsersModule } from './users/users.module';
+import { ConfigModule } from '@nestjs/config';
+import { envValidationSchema } from './config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: envValidationSchema,
+      validationOptions: {
+        abortEarly: false, // Shows all env errors
+      },
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
