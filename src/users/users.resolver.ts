@@ -3,10 +3,10 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { AuthGuard } from '@/auth/auth.guard';
 import { JwtPayload } from '@/auth/auth.types';
-import { AuthUser } from '@/common/decorators/auth-user.decorator';
+import { AuthUser } from '@/common/decorators';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
-import { User } from './entities/user.entity';
+import { User } from './entities';
 import { UsersService } from './users.service';
 
 @Resolver(() => User)
