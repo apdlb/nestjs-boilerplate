@@ -11,11 +11,6 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => User, { name: 'me' })
-  findMe(@CurrentUser() user: JwtUser) {
-    return this.usersService.findOne(user.id);
-  }
-
   @Mutation(() => User)
   createUser(@Args('input') createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -39,5 +34,10 @@ export class UsersResolver {
   @Mutation(() => User)
   removeUser(@Args('id', { type: () => ID }) id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Query(() => User, { name: 'me' })
+  findMe(@CurrentUser() user: JwtUser) {
+    return this.usersService.findOne(user.id);
   }
 }
