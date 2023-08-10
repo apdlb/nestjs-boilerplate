@@ -1,6 +1,6 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { JwtPayload } from '@/auth/auth.types';
+import { JwtUser } from '@/auth/auth.types';
 import { CurrentUser } from '@/common/decorators';
 
 import { CreateUserDto, UpdateUserDto } from './dto';
@@ -12,8 +12,8 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query(() => User, { name: 'me' })
-  findMe(@CurrentUser() user: JwtPayload) {
-    return this.usersService.findOne(user.sub);
+  findMe(@CurrentUser() user: JwtUser) {
+    return this.usersService.findOne(user.id);
   }
 
   @Mutation(() => User)
