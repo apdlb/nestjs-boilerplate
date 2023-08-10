@@ -1,0 +1,19 @@
+type AuthType {
+  accessToken: String!
+}
+
+input SignInInput {
+  """
+  User's email
+  """
+  email: String!
+
+  """
+  User's password
+  """
+  password: String!
+}
+
+type Mutation {
+  signIn(input: SignInInput!): AuthType!
+}

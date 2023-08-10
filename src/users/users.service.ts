@@ -3,18 +3,17 @@ import { User } from '@prisma/client';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(createUserInput: CreateUserInput) {
+  create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
       data: {
         role: 'USER',
-        ...createUserInput,
+        ...createUserDto,
       },
     });
   }
@@ -39,12 +38,12 @@ export class UsersService {
     });
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
+  update(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: {
         id,
       },
-      data: updateUserInput,
+      data: updateUserDto,
     });
   }
 

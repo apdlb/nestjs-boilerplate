@@ -1,0 +1,62 @@
+type UserType {
+  """
+  User's unique identifier
+  """
+  id: ID!
+
+  """
+  User's email
+  """
+  email: String!
+
+  """
+  User's first name
+  """
+  firstName: String!
+
+  """
+  User's last name
+  """
+  lastName: String!
+}
+
+input CreateUserInput {
+  """
+  User's email
+  """
+  email: String!
+
+  """
+  User's password
+  """
+  password: String!
+
+  """
+  User's first name
+  """
+  firstName: String!
+}
+
+input UpdateUserInput {
+  """
+  User's unique identifier
+  """
+  id: ID!
+
+  """
+  User's first name
+  """
+  firstName: String!
+}
+
+type Query {
+  me: UserType!
+  user(id: ID!): UserType!
+  users: [UserType!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): UserType!
+  removeUser(id: ID!): UserType!
+  updateUser(input: UpdateUserInput!): UserType!
+}

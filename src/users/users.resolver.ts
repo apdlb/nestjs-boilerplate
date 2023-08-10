@@ -5,8 +5,7 @@ import { AuthGuard } from '@/auth/auth.guard';
 import { JwtPayload } from '@/auth/auth.types';
 import { AuthUser } from '@/common/decorators/auth-user.decorator';
 
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -21,8 +20,8 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  createUser(@Args('input') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput);
+  createUser(@Args('input') createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
   }
 
   @Query(() => [User], { name: 'users' })
@@ -36,8 +35,8 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  updateUser(@Args('input') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+  updateUser(@Args('input') updateUserDto: UpdateUserDto) {
+    return this.usersService.update(updateUserDto.id, updateUserDto);
   }
 
   @Mutation(() => User)

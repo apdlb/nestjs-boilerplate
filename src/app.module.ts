@@ -21,10 +21,13 @@ import { UsersModule } from './users/users.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'schema.gql'),
-      sortSchema: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      typePaths: ['./**/*.graphql'],
+      definitions: {
+        path: join(process.cwd(), 'src/graphql.ts'),
+        emitTypenameField: true,
+      },
     }),
     PrismaModule,
     UsersModule,
