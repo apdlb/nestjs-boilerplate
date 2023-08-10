@@ -15,7 +15,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm run db:generate
+RUN pnpm run prisma:generate
 
 # Copy the rest of the application code
 

@@ -1,12 +1,17 @@
-x-restart-policy: &restart_policy
-  # our policy is always restart the container unless it is explicitly stopped
-  # or Docker daemon is restarted
-  restart: unless-stopped
-
 services:
+  api:
+    build:
+      context: .
+    ports:
+      - 3000:${API_PORT}
+    env_file:
+      - .env
+      - .env.compose
+    depends_on:
+      - postgres
   postgres:
-    <<: *restart_policy
     image: postgres:latest
+    restart: unless-stopped
     ports:
       - 5432:${POSTGRES_PORT}
     environment:
