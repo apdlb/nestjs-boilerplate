@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 
 import { UsersModule } from '@/users/users.module';
 
+import { AuthGuard } from './auth.guard';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 
@@ -23,6 +25,13 @@ import { AuthService } from './auth.service';
     }),
     UsersModule,
   ],
-  providers: [AuthResolver, AuthService],
+  providers: [
+    AuthResolver,
+    AuthService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AuthModule {}
