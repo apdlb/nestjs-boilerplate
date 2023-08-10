@@ -1,7 +1,5 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { AuthGuard } from '@/auth/auth.guard';
 import { JwtPayload } from '@/auth/auth.types';
 import { AuthUser } from '@/common/decorators';
 
@@ -14,7 +12,6 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Query(() => User, { name: 'me' })
-  @UseGuards(AuthGuard)
   findMe(@AuthUser() user: JwtPayload) {
     return this.usersService.findOne(user.sub);
   }
