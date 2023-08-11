@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@/users/users.service';
 
 import { JwtPayload } from './auth.types';
+import { Auth } from './entities';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(email: string, password: string): Promise<any> {
+  async signIn(email: string, password: string): Promise<Auth> {
     const user = await this.usersService.findOneByEmail(email);
 
     if (user?.password !== password) {
