@@ -3,6 +3,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
 
 import { AuthModule } from './auth/auth.module';
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module';
         abortEarly: false, // Shows all env errors
       },
     }),
+    PrismaModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
@@ -29,7 +31,14 @@ import { UsersModule } from './users/users.module';
         emitTypenameField: true,
       },
     }),
-    PrismaModule,
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      loaderOptions: {
+        path: join(process.cwd(), 'src/i18n/'),
+        watch: true,
+      },
+      resolvers: [AcceptLanguageResolver],
+    }),
     UsersModule,
     AuthModule,
   ],
