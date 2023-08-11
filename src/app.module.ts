@@ -30,6 +30,7 @@ import { UsersModule } from './users/users.module';
         path: join(process.cwd(), 'src/graphql.ts'),
         emitTypenameField: true,
       },
+      context: ({ req, res }) => ({ req, res }),
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
