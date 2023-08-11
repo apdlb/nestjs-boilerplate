@@ -6,7 +6,7 @@ services:
       - 3000:${API_PORT}
     env_file:
       - .env
-      - .env.compose
+      - .env.docker
     depends_on:
       - postgres
   postgres:
