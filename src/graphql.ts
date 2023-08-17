@@ -26,6 +26,7 @@ export interface UpdateUserInput {
 
 export interface AuthType {
     __typename?: 'AuthType';
+    ok: boolean;
     accessToken: string;
 }
 

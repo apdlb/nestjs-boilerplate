@@ -12,12 +12,17 @@ const prisma = new PrismaClient();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(cookieParser());
 
   const logger = new Logger(AppModule.name);
-
   const configService = app.get(ConfigService);
-  const port = configService.get('API_PORT') || 3000;
+
+  app.enableCors({
+    origin: [configService.get('WEB_URL')],
+    // To send cookies to other domains
+    credentials: true,
+  });
+
+  app.use(cookieParser());
 
   const AdminJS = await import('adminjs');
   const AdminJSExpress = (await import('@adminjs/express')).default;
@@ -60,6 +65,8 @@ async function bootstrap() {
   const admin = new AdminJS.default(adminOptions);
   const adminRouter = AdminJSExpress.buildRouter(admin);
   app.use(admin.options.rootPath, adminRouter);
+
+  const port = configService.get('API_PORT') || 3000;
 
   await app.listen(port, () => {
     logger.log(`Application successfully started on http://localhost:${port}`);

@@ -1,4 +1,12 @@
 type AuthType {
+  """
+  Sign in status
+  """
+  ok: Boolean!
+
+  """
+  Access token
+  """
   accessToken: String!
 }
 

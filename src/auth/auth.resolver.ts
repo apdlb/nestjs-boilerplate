@@ -22,7 +22,11 @@ export class AuthResolver {
       signInDto.password,
     );
 
-    ctx.res.cookie('accessToken', auth.accessToken, { httpOnly: true });
+    ctx.res.cookie('accessToken', auth.accessToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
 
     return auth;
   }
