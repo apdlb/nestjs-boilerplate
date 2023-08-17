@@ -51,12 +51,12 @@ input UpdateUserInput {
 
 type Query {
   me: UserType!
-  user(id: ID!): UserType!
   users: [UserType!]!
+  user(id: ID!): UserType!
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): UserType!
-  removeUser(id: ID!): UserType!
   updateUser(input: UpdateUserInput!): UserType!
+  removeUser(id: ID!): UserType!
 }

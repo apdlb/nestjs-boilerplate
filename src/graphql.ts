@@ -33,8 +33,8 @@ export interface IMutation {
     __typename?: 'IMutation';
     signIn(input: SignInInput): AuthType | Promise<AuthType>;
     createUser(input: CreateUserInput): UserType | Promise<UserType>;
-    removeUser(id: string): UserType | Promise<UserType>;
     updateUser(input: UpdateUserInput): UserType | Promise<UserType>;
+    removeUser(id: string): UserType | Promise<UserType>;
 }
 
 export interface UserType {
@@ -48,8 +48,8 @@ export interface UserType {
 export interface IQuery {
     __typename?: 'IQuery';
     me(): UserType | Promise<UserType>;
-    user(id: string): UserType | Promise<UserType>;
     users(): UserType[] | Promise<UserType[]>;
+    user(id: string): UserType | Promise<UserType>;
 }
 
 type Nullable<T> = T | null;
