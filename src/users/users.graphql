@@ -50,9 +50,9 @@ input UpdateUserInput {
 }
 
 type Query {
-  me: UserType!
   users: [UserType!]!
   user(id: ID!): UserType!
+  me: UserType!
 }
 
 type Mutation {
