@@ -23,8 +23,8 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:reset": "prisma migrate reset",
     "prisma:db:seed": "prisma db seed",
-    "db:start": "docker compose up postgres",
     "db:reset": "pnpm prisma:migrate:reset && pnpm prisma:generate",
+    "db:start": "docker compose up postgres",
     "types:generate:watch": "ts-node scripts/generate-typings.ts"
   },
   "dependencies": {
