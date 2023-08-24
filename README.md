@@ -32,6 +32,29 @@
 $ pnpm install
 ```
 
+## Enviroment variables
+
+You need to copy .env.example file and fill with real values
+
+```bash
+$ cp .env.example .env
+```
+
+## Runing the database
+
+```bash
+$ pnpm db:start
+
+# Optional: if you are running for the first time you can migrate and seed your database
+$ pnpm prisma:migrate:dev
+```
+
+## Reset the database
+
+```bash
+$ pnpm db:reset
+```
+
 ## Running the app
 
 ```bash
