@@ -8,49 +8,64 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export interface SignInInput {
+export enum RoleEnum {
+    ADMIN = "ADMIN",
+    USER = "USER"
+}
+
+export class SignInInput {
     email: string;
     password: string;
 }
 
-export interface CreateUserInput {
+export class CreateUserInput {
     email: string;
     password: string;
     firstName: string;
 }
 
-export interface UpdateUserInput {
+export class UpdateUserInput {
     id: string;
     firstName: string;
+    lastName?: Nullable<string>;
 }
 
-export interface AuthType {
+export class AuthType {
     __typename?: 'AuthType';
     ok: boolean;
     accessToken: string;
 }
 
-export interface IMutation {
+export abstract class IMutation {
     __typename?: 'IMutation';
-    signIn(input: SignInInput): AuthType | Promise<AuthType>;
-    createUser(input: CreateUserInput): UserType | Promise<UserType>;
-    updateUser(input: UpdateUserInput): UserType | Promise<UserType>;
-    removeUser(id: string): UserType | Promise<UserType>;
+
+    abstract signIn(input: SignInInput): AuthType | Promise<AuthType>;
+
+    abstract createUser(input: CreateUserInput): UserType | Promise<UserType>;
+
+    abstract updateUser(input: UpdateUserInput): UserType | Promise<UserType>;
+
+    abstract removeUser(id: string): UserType | Promise<UserType>;
 }
 
-export interface UserType {
+export class UserType {
     __typename?: 'UserType';
     id: string;
     email: string;
+    role: RoleEnum;
     firstName: string;
-    lastName: string;
+    lastName?: Nullable<string>;
+    createdAt: Date;
 }
 
-export interface IQuery {
+export abstract class IQuery {
     __typename?: 'IQuery';
-    me(): UserType | Promise<UserType>;
-    users(): UserType[] | Promise<UserType[]>;
-    user(id: string): UserType | Promise<UserType>;
+
+    abstract users(): UserType[] | Promise<UserType[]>;
+
+    abstract user(id: string): UserType | Promise<UserType>;
+
+    abstract me(): UserType | Promise<UserType>;
 }
 
 type Nullable<T> = T | null;

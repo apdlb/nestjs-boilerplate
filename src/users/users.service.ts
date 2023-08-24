@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import * as argon2 from 'argon2';
 
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dtos';
 import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  create(createUserDto: CreateUserDto) {
-    return this.usersRepository.create(createUserDto);
+  async hashPassword(password: string) {
+    const hash = await argon2.hash(password);
+
+    return hash;
   }
 
-  findAll(): Promise<User[]> {
+  async create({ password, ...createUserDto }: CreateUserDto) {
+    const hashedPassword = await this.hashPassword(password);
+
+    return this.usersRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+  }
+
+  findAll() {
     return this.usersRepository.findAll();
   }
 
-  findOne(id: string): Promise<User> {
+  findOne(id: string) {
     return this.usersRepository.findOne(id);
   }
 
-  findOneByEmail(email: string): Promise<User> {
+  findOneByEmail(email: string) {
     return this.usersRepository.findOneByEmail(email);
   }
 

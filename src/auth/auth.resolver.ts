@@ -2,16 +2,16 @@ import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 
 import { Public } from '@/common/decorators';
 import { GraphQLContext } from '@/common/types';
+import { AuthType } from '@/graphql';
 
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto';
-import { Auth } from './entities';
+import { SignInDto } from './dtos';
 
-@Resolver(() => Auth)
+@Resolver(() => AuthType)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Auth)
+  @Mutation(() => AuthType)
   @Public()
   async signIn(
     @Context() ctx: GraphQLContext,
