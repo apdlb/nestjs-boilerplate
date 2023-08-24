@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 
 import { PrismaService } from '@/prisma/prisma.service';
 
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dtos';
 
 @Injectable()
 export class UsersRepository {
@@ -22,7 +22,7 @@ export class UsersRepository {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string): Promise<User> {
+  findOne(id: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: {
         id,
@@ -30,7 +30,7 @@ export class UsersRepository {
     });
   }
 
-  findOneByEmail(email: string): Promise<User> {
+  findOneByEmail(email: string): Promise<User> | null {
     return this.prisma.user.findUnique({
       where: {
         email,
