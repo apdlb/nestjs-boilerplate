@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
 
 import setupAdmin from './admin';
 import { AppModule } from './app.module';
@@ -21,6 +22,8 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
+
+  app.use(helmet());
 
   app.useGlobalPipes(new ValidationPipe());
 
