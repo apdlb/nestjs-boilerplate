@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
@@ -21,6 +21,8 @@ async function bootstrap() {
   });
 
   app.use(cookieParser());
+
+  app.useGlobalPipes(new ValidationPipe());
 
   const admin = await setupAdmin(app, { port });
 
