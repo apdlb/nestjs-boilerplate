@@ -1,3 +1,8 @@
+enum RoleEnum {
+  ADMIN
+  USER
+}
+
 type UserType {
   """
   User's unique identifier
@@ -10,6 +15,11 @@ type UserType {
   email: String!
 
   """
+  User's role
+  """
+  role: RoleEnum!
+
+  """
   User's first name
   """
   firstName: String!
@@ -17,7 +27,12 @@ type UserType {
   """
   User's last name
   """
-  lastName: String!
+  lastName: String
+
+  """
+  User's created at date
+  """
+  createdAt: Date!
 }
 
 input CreateUserInput {
@@ -47,6 +62,11 @@ input UpdateUserInput {
   User's first name
   """
   firstName: String!
+
+  """
+  User's last name
+  """
+  lastName: String
 }
 
 type Query {
