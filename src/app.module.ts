@@ -7,6 +7,7 @@ import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
 import { join } from 'path';
 
 import { AuthModule } from './auth/auth.module';
+import { DateScalar } from './common/scalars';
 import { envValidationSchema } from './config';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
       typePaths: ['./**/*.graphql'],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
+        outputAs: 'class',
         emitTypenameField: true,
       },
       context: ({ req, res }) => ({ req, res }),
@@ -43,5 +45,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     AuthModule,
   ],
+  providers: [DateScalar],
 })
 export class AppModule {}
