@@ -1,26 +1,37 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as argon2 from 'argon2';
 
+import { AuthType } from '@/graphql';
 import { UsersService } from '@/users/users.service';
 
 import { JwtPayload } from './auth.types';
-import { Auth } from './entities';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
     private jwtService: JwtService,
+    private usersService: UsersService,
   ) {}
 
-  async signIn(email: string, password: string): Promise<Auth> {
+  async signIn(email: string, password: string): Promise<AuthType> {
     const user = await this.usersService.findOneByEmail(email);
 
-    if (user?.password !== password) {
+    if (!user) {
       throw new UnauthorizedException();
     }
 
-    const payload: JwtPayload = { sub: user.id, email: user.email };
+    const isMatch = await argon2.verify(user.password, password);
+
+    if (!isMatch) {
+      throw new UnauthorizedException();
+    }
+
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
     const accessToken = await this.jwtService.signAsync(payload);
 
     return {

@@ -1,9 +1,14 @@
-export type JwtPayload = {
-  sub: string;
+import { RoleEnum } from '@/common/types';
+
+type Common = {
   email: string;
+  role: RoleEnum;
 };
 
-export type JwtUser = {
+export type JwtPayload = Common & {
+  sub: string;
+};
+
+export type JwtUser = Common & {
   id: string;
-  email: string;
 };
