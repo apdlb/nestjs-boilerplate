@@ -33,7 +33,7 @@ async function bootstrap() {
     }),
   );
 
-  const admin = await setupAdmin(app, { port });
+  const admin = await setupAdmin(app, configService, { port });
 
   await app.listen(port, () => {
     logger.log(
