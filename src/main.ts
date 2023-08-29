@@ -23,7 +23,9 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.use(helmet());
+  if (configService.get('NODE_ENV') === 'production') {
+    app.use(helmet());
+  }
 
   app.useGlobalPipes(new ValidationPipe());
 
