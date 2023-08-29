@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 
-import { RoleEnum } from '@/common/types';
+import { CurrentAdmin, RoleEnum } from '@/common/types';
 import { AuthType } from '@/graphql';
 import { UsersService } from '@/users/users.service';
 
@@ -47,17 +47,16 @@ export class AuthService {
     };
   }
 
-  async signInAdmin(email: string, password: string): Promise<JwtPayload> {
+  async signInAdmin(email: string, password: string) {
     const user = await this.verifyUser(email, password);
 
     if (user.role !== RoleEnum.ADMIN) {
       throw new UnauthorizedException();
     }
 
-    const payload: JwtPayload = {
-      sub: user.id,
+    const payload: CurrentAdmin = {
       email: user.email,
-      role: user.role,
+      id: user.id,
     };
 
     return payload;
