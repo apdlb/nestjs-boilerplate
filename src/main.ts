@@ -25,11 +25,7 @@ async function bootstrap() {
     app.use(helmet());
   }
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true, // Removes without class-validator decorators
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe());
 
   const admin = await setupAdmin(app, configService);
 
