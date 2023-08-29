@@ -1,8 +1,11 @@
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 import { SignInInput } from '@/graphql';
 
-export class SignInDto extends SignInInput {
+export class SignInDto implements SignInInput {
   @IsEmail()
   email: string;
+
+  @IsString()
+  password: string;
 }
