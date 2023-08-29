@@ -23,11 +23,17 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.use(helmet());
+  if (configService.get('NODE_ENV') === 'production') {
+    app.use(helmet());
+  }
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Removes without class-validator decorators
+    }),
+  );
 
-  const admin = await setupAdmin(app, { port });
+  const admin = await setupAdmin(app, configService, { port });
 
   await app.listen(port, () => {
     logger.log(
