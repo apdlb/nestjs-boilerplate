@@ -7,9 +7,11 @@ import * as argon2 from 'argon2';
 import { AppModule } from '@/app.module';
 import { AuthService } from '@/auth/auth.service';
 
+import { SetupAdminOptions } from './types';
+
 const prisma = new PrismaClient();
 
-export const authenticate = async (email: string, password: string) => {
+const authenticate = async (email: string, password: string) => {
   try {
     const app = await NestFactory.createApplicationContext(AppModule);
     const authService = app.get(AuthService);
@@ -25,9 +27,7 @@ export const authenticate = async (email: string, password: string) => {
 export default async function setupAdmin(
   app: INestApplication,
   configService: ConfigService,
-  options: {
-    port: string;
-  },
+  options: SetupAdminOptions,
 ) {
   const { port } = options;
   const nodeEnv = configService.get('NODE_ENV');
