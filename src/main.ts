@@ -27,7 +27,11 @@ async function bootstrap() {
     app.use(helmet());
   }
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Removes without class-validator decorators
+    }),
+  );
 
   const admin = await setupAdmin(app, { port });
 
