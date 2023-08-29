@@ -13,17 +13,15 @@ async function bootstrap() {
   const logger = new Logger(AppModule.name);
   const configService = app.get(ConfigService);
 
-  const port = configService.get('API_PORT') || 3000;
-
   app.enableCors({
-    origin: [configService.get('WEB_URL')],
+    origin: [configService.get<string>('WEB_URL')],
     // To send cookies to other domains
     credentials: true,
   });
 
   app.use(cookieParser());
 
-  if (configService.get('NODE_ENV') === 'production') {
+  if (configService.get<string>('NODE_ENV') === 'production') {
     app.use(helmet());
   }
 
@@ -33,7 +31,9 @@ async function bootstrap() {
     }),
   );
 
-  const admin = await setupAdmin(app, configService, { port });
+  const admin = await setupAdmin(app, configService);
+
+  const port = configService.get<number>('API_PORT');
 
   await app.listen(port, () => {
     logger.log(

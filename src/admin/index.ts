@@ -7,8 +7,6 @@ import * as argon2 from 'argon2';
 import { AppModule } from '@/app.module';
 import { AuthService } from '@/auth/auth.service';
 
-import { SetupAdminOptions } from './types';
-
 const prisma = new PrismaClient();
 
 const authenticate = async (email: string, password: string) => {
@@ -27,10 +25,8 @@ const authenticate = async (email: string, password: string) => {
 export default async function setupAdmin(
   app: INestApplication,
   configService: ConfigService,
-  options: SetupAdminOptions,
 ) {
-  const { port } = options;
-  const nodeEnv = configService.get('NODE_ENV');
+  const nodeEnv = configService.get<string>('NODE_ENV');
 
   const AdminJS = await import('adminjs');
   const AdminJSExpress = (await import('@adminjs/express')).default;
@@ -46,8 +42,10 @@ export default async function setupAdmin(
 
   const companyName = configService.get<string>('ADMINJS_COMPANY_NAME');
   const appVersion = configService.get<string>('ADMINJS_APP_VERSION');
-  const cookieName = configService.get('ADMINJS_AUTH_COOKIE_NAME');
-  const sessionSecret = configService.get('ADMINJS_AUTH_SESSION_SECRET');
+  const cookieName = configService.get<string>('ADMINJS_AUTH_COOKIE_NAME');
+  const cookiePassword = configService.get<string>(
+    'ADMINJS_AUTH_COOKIE_PASSWORD',
+  );
 
   // Icons from https://feathericons.com/
   const adminOptions = {
@@ -94,21 +92,23 @@ export default async function setupAdmin(
     {
       authenticate,
       cookieName,
-      cookiePassword: sessionSecret,
+      cookiePassword,
     },
     null,
     {
       resave: true,
       saveUninitialized: true,
-      secret: sessionSecret,
+      secret: cookiePassword,
       cookie: {
         httpOnly: nodeEnv === 'production',
         secure: nodeEnv === 'production',
       },
-      name: 'adminjs',
+      name: cookieName,
     },
   );
   app.use(admin.options.rootPath, adminRouter);
+
+  const port = configService.get<number>('API_PORT');
 
   return {
     successMessage: `AdminJS started on http://localhost:${port}${admin.options.rootPath}`,
