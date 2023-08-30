@@ -1,5 +1,6 @@
-import { UpdateUserInput } from '@/graphql';
 import { IsOptional, IsString } from 'class-validator';
+
+import { UpdateUserInput } from '@/graphql';
 
 export class UpdateUserDto implements UpdateUserInput {
   @IsString()
